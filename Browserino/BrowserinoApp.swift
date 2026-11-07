@@ -177,11 +177,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         NSApplication.shared.activate(ignoringOtherApps: true)
         selectorWindow!.deactivateDelay()
         
-        selectorWindow!.contentView = NSHostingView(
+        let contentView = NSHostingView(
             rootView: PromptView(
                 urls: processedUrls
             )
         )
+        // BrowserinoWindow manages its minimum size and wrapped footer height.
+        contentView.sizingOptions = []
+        contentView.autoresizingMask = [.width, .height]
+        let containerView = NSView(frame: selectorWindow!.contentView?.bounds ?? .zero)
+        contentView.frame = containerView.bounds
+        containerView.addSubview(contentView)
+        selectorWindow!.contentView = containerView
         
         selectorWindow!.makeKeyAndOrderFront(nil)
         selectorWindow!.isReleasedWhenClosed = false

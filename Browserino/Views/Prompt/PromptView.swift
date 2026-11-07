@@ -9,6 +9,8 @@ import AppKit
 import SwiftUI
 
 struct PromptView: View {
+    private static let footerIconSize: CGFloat = 24
+
     @AppStorage("browsers") private var browsers: [URL] = []
     @AppStorage("hiddenBrowsers") private var hiddenBrowsers: [URL] = []
     @AppStorage("apps") private var apps: [App] = []
@@ -25,6 +27,7 @@ struct PromptView: View {
     @State private var spaceKeyMonitor: Any?
     @State private var isShiftPressed = false
     @State private var modifierMonitor: Any?
+    @State private var footerExtraHeight: CGFloat = 0
     @FocusState private var focused: Bool
 
     var appsForUrls: [App] {
@@ -225,29 +228,49 @@ struct PromptView: View {
             Divider()
 
             if let host = urls.first?.host() {
-                Button(action: {
-                    let pasteboard = NSPasteboard.general
-                    pasteboard.declareTypes([.string], owner: nil)
-                    pasteboard.setString(urls.first?.absoluteString ?? "", forType: .string)
+                HStack(spacing: 16) {
+                    Button(action: {
+                        let pasteboard = NSPasteboard.general
+                        pasteboard.declareTypes([.string], owner: nil)
+                        pasteboard.setString(urls.first?.absoluteString ?? "", forType: .string)
 
-                    if closeAfterCopy {
-                        NSApplication.shared.keyWindow?.close()
-                    }
-                }) {
-                    HStack(spacing: 0) {
-                        Text(host)
-                        if isShiftPressed {
-                            Text(" - (Private)")
-                                .foregroundStyle(.secondary)
+                        if closeAfterCopy {
+                            NSApplication.shared.keyWindow?.close()
                         }
+                    }) {
+                        Text(host)
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.plain)
+                    .keyboardShortcut(
+                        KeyEquivalent("c"),
+                        modifiers: alternativeShortcut ? [.command] : [.command, .option]
+                    )
+                    .toolTip(urls.first?.absoluteString ?? "")
+
+                    // Both variants are available since macOS 12; keep their footprint identical.
+                    Image(systemName: isShiftPressed ? "theatermasks.circle.fill" : "theatermasks.circle")
+                        .font(.system(size: 20))
+                        .symbolRenderingMode(.monochrome)
+                        .foregroundStyle(isShiftPressed ? Color.primary : Color.secondary)
+                        .opacity(isShiftPressed ? 1 : 0.45)
+                        .frame(width: Self.footerIconSize, height: Self.footerIconSize)
+                        .accessibilityLabel("Private browsing")
+                        .accessibilityValue(isShiftPressed ? "On" : "Off")
+                        .help(isShiftPressed ? "Private browsing — Shift is held" : "Hold Shift for private browsing")
+                }
+                .padding(.horizontal, 8)
+                .background {
+                    GeometryReader { geometry in
+                        Color.clear.preference(
+                            key: FooterHeightPreferenceKey.self,
+                            value: geometry.size.height
+                        )
                     }
                 }
-                .buttonStyle(.plain)
-                .keyboardShortcut(
-                    KeyEquivalent("c"),
-                    modifiers: alternativeShortcut ? [.command] : [.command, .option]
-                )
-                .toolTip(urls.first?.absoluteString ?? "")
+
             }
         }
         .padding(12)
@@ -256,6 +279,10 @@ struct PromptView: View {
             maxHeight: .infinity
         )
         .background(BlurredView())
+        .background(FooterWindowSizing(extraHeight: footerExtraHeight))
+        .onPreferenceChange(FooterHeightPreferenceKey.self) { height in
+            footerExtraHeight = max(0, height - Self.footerIconSize)
+        }
         .opacity(opacityAnimation)
         .edgesIgnoringSafeArea(.all)
         .onAppear {
@@ -299,4 +326,42 @@ struct PromptView: View {
 
 #Preview {
     PromptView(urls: [])
+}
+
+private struct FooterHeightPreferenceKey: PreferenceKey {
+    static let defaultValue: CGFloat = 0
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
+    }
+}
+
+private struct FooterWindowSizing: NSViewRepresentable {
+    let extraHeight: CGFloat
+
+    class SizingView: NSView {
+        var extraHeight: CGFloat = 0
+
+        func updateWindow() {
+            // Resize after SwiftUI has finished measuring the footer.
+            DispatchQueue.main.async { [weak self] in
+                guard let self, let window = self.window as? BrowserinoWindow, window.isVisible else { return }
+                window.setFooterExtraHeight(self.extraHeight)
+            }
+        }
+
+        override func viewDidMoveToWindow() {
+            super.viewDidMoveToWindow()
+            updateWindow()
+        }
+    }
+
+    func makeNSView(context: Context) -> SizingView {
+        SizingView()
+    }
+
+    func updateNSView(_ view: SizingView, context: Context) {
+        view.extraHeight = extraHeight
+        view.updateWindow()
+    }
 }
