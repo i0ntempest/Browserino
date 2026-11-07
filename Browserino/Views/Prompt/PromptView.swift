@@ -23,6 +23,8 @@ struct PromptView: View {
     @State private var opacityAnimation = 0.0
     @State private var selected = 0
     @State private var spaceKeyMonitor: Any?
+    @State private var isShiftPressed = false
+    @State private var modifierMonitor: Any?
     @FocusState private var focused: Bool
 
     var appsForUrls: [App] {
@@ -232,9 +234,13 @@ struct PromptView: View {
                         NSApplication.shared.keyWindow?.close()
                     }
                 }) {
-                    Text(
-                        host
-                    )
+                    HStack(spacing: 0) {
+                        Text(host)
+                        if isShiftPressed {
+                            Text(" - (Private)")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
                 }
                 .buttonStyle(.plain)
                 .keyboardShortcut(
@@ -270,12 +276,23 @@ struct PromptView: View {
                     return nil
                 }
             }
+            isShiftPressed = NSEvent.modifierFlags.contains(.shift)
+            if modifierMonitor == nil {
+                modifierMonitor = NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { event in
+                    isShiftPressed = event.modifierFlags.contains(.shift)
+                    return event
+                }
+            }
         }
         .onDisappear {
             if let spaceKeyMonitor {
                 NSEvent.removeMonitor(spaceKeyMonitor)
             }
             spaceKeyMonitor = nil
+            if let modifierMonitor {
+                NSEvent.removeMonitor(modifierMonitor)
+            }
+            modifierMonitor = nil
         }
     }
 }
