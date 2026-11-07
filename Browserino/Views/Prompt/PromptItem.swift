@@ -34,8 +34,7 @@ struct PromptItem: View {
                 
                 if isFirstBrowser {
                     Image(systemName: "space")
-                        .foregroundStyle(.yellow)
-                        .modifier(ShortcutBadgeStyle())
+                        .modifier(ShortcutBadgeStyle(background: Color.yellow.opacity(0.2)))
                         .accessibilityLabel("Space")
                 }
 
@@ -74,13 +73,16 @@ struct PromptItem: View {
 }
 
 private struct ShortcutBadgeStyle: ViewModifier {
+    var background: Color = Color.secondary.opacity(0.2)
+
     func body(content: Content) -> some View {
         content
             .font(.caption)
             .frame(minWidth: 4)
+            .frame(height: 14)
             .opacity(0.5)
             .padding(5)
-            .background(Color.secondary.opacity(0.2))
+            .background(background)
             .cornerRadius(4)
     }
 }
