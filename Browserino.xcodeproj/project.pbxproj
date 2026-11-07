@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A4F001012F0E000000000001 /* SafariPrivateBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F001022F0E000000000001 /* SafariPrivateBrowser.swift */; };
+		A4F001032F0E000000000001 /* PreferencesMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F001042F0E000000000001 /* PreferencesMigration.swift */; };
 		664FDF222CE4AA6B009766AA /* BrowserUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664FDF212CE4AA6B009766AA /* BrowserUtil.swift */; };
 		669247902CEB48A5006A8C8B /* LocationsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6692478F2CEB48A5006A8C8B /* LocationsTab.swift */; };
 		9830F0A62C119A3000D69C88 /* BrowserinoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0A52C119A3000D69C88 /* BrowserinoApp.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		A4F001022F0E000000000001 /* SafariPrivateBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariPrivateBrowser.swift; sourceTree = "<group>"; };
+		A4F001042F0E000000000001 /* PreferencesMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesMigration.swift; sourceTree = "<group>"; };
 		664FDF212CE4AA6B009766AA /* BrowserUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserUtil.swift; sourceTree = "<group>"; };
 		6692478F2CEB48A5006A8C8B /* LocationsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsTab.swift; sourceTree = "<group>"; };
 		9830F0A22C119A3000D69C88 /* Browserino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Browserino.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -170,6 +172,7 @@
 				986DC8082CFE42EA00447DC7 /* Rule.swift */,
 				664FDF212CE4AA6B009766AA /* BrowserUtil.swift */,
 				A4F001022F0E000000000001 /* SafariPrivateBrowser.swift */,
+				A4F001042F0E000000000001 /* PreferencesMigration.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 				9830F0B62C119CD800D69C88 /* main.swift in Sources */,
 				664FDF222CE4AA6B009766AA /* BrowserUtil.swift in Sources */,
 				A4F001012F0E000000000001 /* SafariPrivateBrowser.swift in Sources */,
+				A4F001032F0E000000000001 /* PreferencesMigration.swift in Sources */,
 				9838C9802E9BC6CF00261421 /* View+Tooltip.swift in Sources */,
 				9830F0B92C11B09700D69C88 /* BlurredView.swift in Sources */,
 				986AC6242CECDB5000884C40 /* BrowserinoApplication.swift in Sources */,
@@ -436,7 +440,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Browserino/Preview Content\"";
-				DEVELOPMENT_TEAM = N37A28CLCC;
+				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -453,7 +457,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MARKETING_VERSION = 1.1.16;
-				PRODUCT_BUNDLE_IDENTIFIER = xyz.alexstrnik.Browserino;
+				PRODUCT_BUNDLE_IDENTIFIER = com.i0ntempest.Browserino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -473,7 +477,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Browserino/Preview Content\"";
-				DEVELOPMENT_TEAM = N37A28CLCC;
+				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -490,7 +494,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MARKETING_VERSION = 1.1.16;
-				PRODUCT_BUNDLE_IDENTIFIER = xyz.alexstrnik.Browserino;
+				PRODUCT_BUNDLE_IDENTIFIER = com.i0ntempest.Browserino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

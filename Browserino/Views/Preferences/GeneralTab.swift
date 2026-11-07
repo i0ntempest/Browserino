@@ -252,7 +252,10 @@ struct GeneralTab: View {
                         let defaults = UserDefaults.standard
                         let dictionary = defaults.dictionaryRepresentation()
                         dictionary.keys.forEach { key in
-                            defaults.removeObject(forKey: key)
+                            // Reset should not re-import old settings on the next launch.
+                            if key != PreferencesMigration.completionKey {
+                                defaults.removeObject(forKey: key)
+                            }
                         }
                     }) {
                         Text("Reset")
