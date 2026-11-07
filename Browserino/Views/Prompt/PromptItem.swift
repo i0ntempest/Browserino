@@ -15,6 +15,13 @@ struct PromptItem: View {
     var isFirstBrowser: Bool = false
     var action: () -> Void
     
+    private var recordedShortcut: String? {
+        guard let shortcut, !shortcut.isEmpty,
+            shortcut != String(KeyEquivalent.escape.character)
+        else { return nil }
+        return shortcut
+    }
+
     var body: some View {
         Button(action: action) {
             HStack {
@@ -32,7 +39,7 @@ struct PromptItem: View {
                         .accessibilityLabel("Space")
                 }
 
-                if let shortcut {
+                if let shortcut = recordedShortcut {
                     Text(shortcut)
                         .modifier(ShortcutBadgeStyle())
                 }
@@ -50,15 +57,15 @@ struct PromptItem: View {
             }
             .padding(8)
         }
-        .if(shortcut != nil) {
+        .if(recordedShortcut != nil) {
             return $0.keyboardShortcut(
-                KeyEquivalent(shortcut!.lowercased().first!),
+                KeyEquivalent(recordedShortcut!.lowercased().first!),
                 modifiers: [.shift]
             ).background {
                 Button(action: action) {}
                     .opacity(0)
                     .keyboardShortcut(
-                        KeyEquivalent(shortcut!.lowercased().first!),
+                        KeyEquivalent(recordedShortcut!.lowercased().first!),
                         modifiers: []
                     )
             }

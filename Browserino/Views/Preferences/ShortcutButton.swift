@@ -15,6 +15,13 @@ struct ShortcutButton: View {
     @State private var isRecording: Bool = false
     @FocusState private var focus: Bool
     
+    private var recordedKey: String? {
+        guard let key = shortcuts[browserId], !key.isEmpty,
+            key != String(KeyEquivalent.escape.character)
+        else { return nil }
+        return key
+    }
+
     var body: some View {
         if isRecording {
             Text("Press any key")
@@ -27,7 +34,11 @@ struct ShortcutButton: View {
                 }
                 .onKeyPressCompat { key in
                     isRecording = false
-                    
+                    if key.isEmpty || key == String(KeyEquivalent.escape.character) {
+                        shortcuts[browserId] = nil
+                        return true
+                    }
+
                     if let shortcut = shortcuts.first(where: { $0.value == key }) {
                         shortcuts[shortcut.key] = nil
                     }
@@ -36,8 +47,6 @@ struct ShortcutButton: View {
                     return true
                 }
         } else {
-            let recordedKey = shortcuts[browserId]
-            
             Button(action: {
                 isRecording = true
                 focus = true
@@ -46,6 +55,13 @@ struct ShortcutButton: View {
                     .padding(5)
             })
             .opacity(recordedKey == nil ? 0.5 : 1)
+            .help("Record a key, or press Escape while recording to clear the shortcut.")
+            .onAppear {
+                // Repair empty or Escape entries recorded by older versions.
+                if shortcuts[browserId] != nil && recordedKey == nil {
+                    shortcuts[browserId] = nil
+                }
+            }
         }
     }
 }
