@@ -22,6 +22,7 @@ struct PromptView: View {
 
     @State private var opacityAnimation = 0.0
     @State private var selected = 0
+    @State private var spaceKeyMonitor: Any?
     @FocusState private var focused: Bool
 
     var appsForUrls: [App] {
@@ -250,6 +251,31 @@ struct PromptView: View {
         .background(BlurredView())
         .opacity(opacityAnimation)
         .edgesIgnoringSafeArea(.all)
+        .onAppear {
+            if spaceKeyMonitor == nil {
+                spaceKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+                    // Handle Space before the focused control can consume it.
+                    guard event.keyCode == 49,
+                        event.modifierFlags.intersection([.command, .control, .option]).isEmpty
+                    else { return event }
+
+                    if let browser = visibleBrowsers.first {
+                        BrowserUtil.openURL(
+                            urls,
+                            app: browser,
+                            isIncognito: event.modifierFlags.contains(.shift)
+                        )
+                    }
+                    return nil
+                }
+            }
+        }
+        .onDisappear {
+            if let spaceKeyMonitor {
+                NSEvent.removeMonitor(spaceKeyMonitor)
+            }
+            spaceKeyMonitor = nil
+        }
     }
 }
 
