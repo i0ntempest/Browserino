@@ -1,6 +1,7 @@
 // Compile together with Browserino/Models/SafariPrivateBrowser.swift.
 // Uses opaque AX identities only: no permission requests or UI messages.
 import ApplicationServices
+import Carbon
 import Foundation
 
 @main
@@ -11,6 +12,12 @@ struct SafariPrivateBrowserTests {
         for other: String? in [nil, "", "com.google.Chrome", "org.mozilla.firefox", "com.apple.Safari.extra"] {
             precondition(!SafariPrivateBrowser.supports(other))
         }
+        let launch = SafariPrivateBrowser.coldLaunchConfiguration()
+        precondition(!launch.activates && !launch.createsNewApplicationInstance)
+        precondition(launch.arguments.isEmpty)
+        precondition(launch.appleEvent?.eventClass == AEEventClass(kASAppleScriptSuite))
+        precondition(launch.appleEvent?.eventID == AEEventID(kASLaunchEvent))
+        precondition(launch.appleEvent?.paramDescriptor(forKeyword: AEKeyword(keyDirectObject)) == nil)
         let old = [AXUIElementCreateApplication(1), AXUIElementCreateApplication(2)]
         let new = AXUIElementCreateApplication(3)
         precondition(tryResult(previous: old, current: Array(old.reversed())) == nil)
@@ -25,7 +32,7 @@ struct SafariPrivateBrowserTests {
             _ = try SafariPrivateBrowser.newWindow(previous: old, current: old + [new, AXUIElementCreateApplication(4)])
             fatalError("Ambiguous new windows were accepted")
         } catch { }
-        print("PASS: Safari-only routing and new-window identity/disambiguation (no UI actions or permission prompts).")
+        print("PASS: Safari-only routing, launch-only startup and new-window identity/disambiguation (no UI actions or permission prompts).")
     }
 
     static func tryResult(previous: [AXUIElement], current: [AXUIElement]) -> AXUIElement? {

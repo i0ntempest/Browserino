@@ -5,6 +5,7 @@
 
 import AppKit
 import ApplicationServices
+import Carbon
 
 /// Safari has no private-window launch argument. Use its native Accessibility controls.
 final class SafariPrivateBrowser {
@@ -53,8 +54,8 @@ final class SafariPrivateBrowser {
                 let running = try runningApplication(at: applicationURL)
                 let application = AXUIElementCreateApplication(running.processIdentifier)
                 AXUIElementSetMessagingTimeout(application, 2)
-                DispatchQueue.main.sync { _ = running.activate() }
                 try waitUntilReady(running, application)
+                DispatchQueue.main.sync { _ = running.activate() }
 
                 // Keep each URL associated with its own newly created private window.
                 // Successfully submitted URLs are excluded from a later manual retry.
@@ -83,12 +84,11 @@ final class SafariPrivateBrowser {
         }
         if let running = matches.first { return running }
 
-        // Launch the existing app normally, without URLs or a separate application instance.
+        // Launch without the usual open-application event, which creates a normal window.
         let semaphore = DispatchSemaphore(value: 0)
         var result: Result<NSRunningApplication, Error>?
         DispatchQueue.main.async {
-            let configuration = NSWorkspace.OpenConfiguration()
-            configuration.activates = false
+            let configuration = coldLaunchConfiguration()
             NSWorkspace.shared.openApplication(at: url, configuration: configuration) { app, error in
                 if let app { result = .success(app) }
                 else { result = .failure(error ?? AutomationError.unavailable("Safari did not launch.")) }
@@ -99,6 +99,21 @@ final class SafariPrivateBrowser {
             throw AutomationError.unavailable("Safari took too long to launch. It may still be starting; try again when it is ready.")
         }
         return try result.get()
+    }
+
+    static func coldLaunchConfiguration() -> NSWorkspace.OpenConfiguration {
+        let configuration = NSWorkspace.OpenConfiguration()
+        configuration.activates = false
+        // The launch-only event starts Safari without requesting its normal startup window.
+        // NSWorkspace delivers it during launch; no AppleScript engine or URL is involved.
+        configuration.appleEvent = NSAppleEventDescriptor(
+            eventClass: AEEventClass(kASAppleScriptSuite),
+            eventID: AEEventID(kASLaunchEvent),
+            targetDescriptor: nil,
+            returnID: AEReturnID(kAutoGenerateReturnID),
+            transactionID: AETransactionID(kAnyTransactionID)
+        )
+        return configuration
     }
 
     private static func waitUntilReady(_ running: NSRunningApplication, _ application: AXUIElement) throws {
