@@ -49,13 +49,21 @@ struct BrowsersTab: View {
                             Spacer()
                                 .frame(width: 32)
 
-                            TextField(
-                                "Private argument",
-                                text: privateArg(for: bundle.bundleIdentifier!)
-                            )
-                            .font(
-                                .system(size: 14).monospaced()
-                            )
+                            if SafariPrivateBrowser.supports(bundle.bundleIdentifier) {
+                                Text("Built-in private browsing")
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(.secondary)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .help("No launch argument is needed. Accessibility access is requested when opening a private Safari window.")
+                            } else {
+                                TextField(
+                                    "Private argument",
+                                    text: privateArg(for: bundle.bundleIdentifier!)
+                                )
+                                .font(
+                                    .system(size: 14).monospaced()
+                                )
+                            }
 
                             Spacer()
                                 .frame(width: 32)
