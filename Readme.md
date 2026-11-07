@@ -2,17 +2,15 @@
 
 ![Dark](images/dark.png?v2) ![Light](images/light.png?v2)
 
-Browserino is a tiny browser selector for MacOS written in SwiftUI. Just set as default browser, assign shortcuts, and now you can choose in which application you want to open the link.
+Browserino is a tiny browser selector for macOS written in SwiftUI. Just set it as the default browser, assign shortcuts, and now you can choose which application you want to open the link with.
 
-Inspired by great [Browserosaurus](https://github.com/will-stone/browserosaurus), but a little bit faster and smaller thanks to native code, and fixes annoying Electron bug.
+Inspired by the great [Browserosaurus](https://github.com/will-stone/browserosaurus), but a little bit faster and smaller thanks to native code, and it fixes annoying Electron bugs.
 
 # Installation
 
 ```bash
-brew tap AlexStrNik/Browserino
-brew install browserino --no-quarantine
+sudo port install browserino
 ```
 
-Or download Browserino from the [releases page](https://github.com/AlexStrNik/Browserino/releases).
-
-If you want to support the app, you can buy it on [Gumroad](https://alexstrnik.gumroad.com/l/browserino).
+Or download Browserino from the [releases page](../../releases). \
+Note that MacPorts builds are ad-hoc signed; release builds are Developer ID signed but not notarized.
