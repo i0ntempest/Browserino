@@ -98,7 +98,8 @@ struct PromptView: View {
                                     browser: browser,
                                     urls: urls,
                                     bundle: bundle,
-                                    shortcut: shortcuts[bundle.bundleIdentifier!]
+                                    shortcut: shortcuts[bundle.bundleIdentifier!],
+                                    isFirstBrowser: index == 0
                                 ) {
                                     BrowserUtil.openURL(
                                         urls,

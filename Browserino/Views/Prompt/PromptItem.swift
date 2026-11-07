@@ -12,6 +12,7 @@ struct PromptItem: View {
     var urls: [URL]
     var bundle: Bundle
     var shortcut: String?
+    var isFirstBrowser: Bool = false
     var action: () -> Void
     
     var body: some View {
@@ -24,16 +25,16 @@ struct PromptItem: View {
                 
                 Spacer()
                 
+                if isFirstBrowser {
+                    Image(systemName: "space")
+                        .foregroundStyle(.yellow)
+                        .modifier(ShortcutBadgeStyle())
+                        .accessibilityLabel("Space")
+                }
+
                 if let shortcut {
                     Text(shortcut)
-                        .font(.caption)
-                        .frame(minWidth: 4)
-                        .opacity(0.5)
-                        .padding(5)
-                        .background(
-                            Color.secondary.opacity(0.2)
-                        )
-                        .cornerRadius(4)
+                        .modifier(ShortcutBadgeStyle())
                 }
                 
                 Spacer()
@@ -62,5 +63,17 @@ struct PromptItem: View {
                     )
             }
         }
+    }
+}
+
+private struct ShortcutBadgeStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.caption)
+            .frame(minWidth: 4)
+            .opacity(0.5)
+            .padding(5)
+            .background(Color.secondary.opacity(0.2))
+            .cornerRadius(4)
     }
 }
