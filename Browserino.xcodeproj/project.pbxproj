@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A4F001012F0E000000000001 /* SafariPrivateBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F001022F0E000000000001 /* SafariPrivateBrowser.swift */; };
-		A4F001032F0E000000000001 /* PreferencesMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F001042F0E000000000001 /* PreferencesMigration.swift */; };
 		664FDF222CE4AA6B009766AA /* BrowserUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664FDF212CE4AA6B009766AA /* BrowserUtil.swift */; };
 		669247902CEB48A5006A8C8B /* LocationsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6692478F2CEB48A5006A8C8B /* LocationsTab.swift */; };
 		9830F0A62C119A3000D69C88 /* BrowserinoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0A52C119A3000D69C88 /* BrowserinoApp.swift */; };
@@ -38,12 +36,12 @@
 		989B17FB2C1710D70039441B /* AppsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17FA2C1710D70039441B /* AppsTab.swift */; };
 		989B17FD2C17400A0039441B /* EditAppForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17FC2C17400A0039441B /* EditAppForm.swift */; };
 		98F919362C12187500BDC10C /* Browserino.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98F919352C12187500BDC10C /* Browserino.icns */; };
+		A4F001012F0E000000000001 /* SafariPrivateBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F001022F0E000000000001 /* SafariPrivateBrowser.swift */; };
+		A4F001032F0E000000000001 /* PreferencesMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F001042F0E000000000001 /* PreferencesMigration.swift */; };
 		B9CFBE192F0C6F3D00FC6D37 /* URLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFBE182F0C6F3D00FC6D37 /* URLExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A4F001022F0E000000000001 /* SafariPrivateBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariPrivateBrowser.swift; sourceTree = "<group>"; };
-		A4F001042F0E000000000001 /* PreferencesMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesMigration.swift; sourceTree = "<group>"; };
 		664FDF212CE4AA6B009766AA /* BrowserUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserUtil.swift; sourceTree = "<group>"; };
 		6692478F2CEB48A5006A8C8B /* LocationsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsTab.swift; sourceTree = "<group>"; };
 		9830F0A22C119A3000D69C88 /* Browserino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Browserino.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,6 +74,8 @@
 		989B17FA2C1710D70039441B /* AppsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsTab.swift; sourceTree = "<group>"; };
 		989B17FC2C17400A0039441B /* EditAppForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAppForm.swift; sourceTree = "<group>"; };
 		98F919352C12187500BDC10C /* Browserino.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Browserino.icns; sourceTree = "<group>"; };
+		A4F001022F0E000000000001 /* SafariPrivateBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariPrivateBrowser.swift; sourceTree = "<group>"; };
+		A4F001042F0E000000000001 /* PreferencesMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesMigration.swift; sourceTree = "<group>"; };
 		B9CFBE182F0C6F3D00FC6D37 /* URLExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -456,7 +456,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
-				MARKETING_VERSION = 1.1.16;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.i0ntempest.Browserino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -493,7 +493,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
-				MARKETING_VERSION = 1.1.16;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.i0ntempest.Browserino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
