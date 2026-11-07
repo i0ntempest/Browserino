@@ -7,7 +7,13 @@
 
 import Foundation
 
-extension Array: @retroactive RawRepresentable where Element: Codable {
+#if compiler(>=6.0)
+extension Array: @retroactive RawRepresentable where Element: Codable {}
+#else
+extension Array: RawRepresentable where Element: Codable {}
+#endif
+
+extension Array where Element: Codable {
     public init?(rawValue: String) {
         guard let data = rawValue.data(using: .utf8),
               let result = try? JSONDecoder().decode([Element].self, from: data)
@@ -27,7 +33,13 @@ extension Array: @retroactive RawRepresentable where Element: Codable {
     }
 }
 
-extension Dictionary: @retroactive RawRepresentable where Key == String, Value: Codable {
+#if compiler(>=6.0)
+extension Dictionary: @retroactive RawRepresentable where Key == String, Value: Codable {}
+#else
+extension Dictionary: RawRepresentable where Key == String, Value: Codable {}
+#endif
+
+extension Dictionary where Key == String, Value: Codable {
     public init?(rawValue: String) {
         guard let data = rawValue.data(using: .utf8),
               let result = try? JSONDecoder().decode(Self.self, from: data)
